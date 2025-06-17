@@ -134,13 +134,19 @@ if uploaded_file is not None:
         #Emojis
         st.title("Emojis Analysis")
         col1, col2 = st.columns(2)
-
+        
         with col1:
             all_emojis = helper.fetch_emoji(selected_user, df)
             emoji_df = pd.DataFrame(Counter(all_emojis).most_common(len(Counter(all_emojis)))).rename(columns={0:'Emoji', 1: "Number of times used"})
-            st.write(emoji_df)
-        
+            if not emoji_df.empty:
+                st.write(emoji_df)
+            else:
+                st.write("No emoji used")
+
         with col2:
-            fig, ax = plt.subplots()
-            ax.pie(emoji_df['Number of times used'].head(), labels=emoji_df['Emoji'].head(), autopct="%0.2f")
-            st.pyplot(fig)
+            try:
+                fig, ax = plt.subplots()
+                ax.pie(emoji_df['Number of times used'].head(), labels=emoji_df['Emoji'].head(), autopct="%0.2f")
+                st.pyplot(fig)
+            except:
+                pass

@@ -48,6 +48,9 @@ def create_wordcloud(selected_user, df):
                 if msg not in stop_words:
                     words.append(msg)
     
+    if not words:
+        words.append("Empty")
+    
     wordcloud = cloud.generate(" ".join(words))
 
     return wordcloud

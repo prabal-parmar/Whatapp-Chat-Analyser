@@ -24,7 +24,7 @@ if uploaded_file is not None:
         st.header("Upload Whatsapp txt file only")
         st.stop()
     
-    
+    # converting byte stream into dataset
     df = preprocessor.preprocess(data)
     try:
         users = df['user'].unique().tolist()
@@ -35,8 +35,13 @@ if uploaded_file is not None:
         st.error("Not able to execute your request")
         st.stop()
     
+    if df.empty:
+        st.header("No data to show")
+        st.stop()
+    
     selected_user = st.sidebar.selectbox("Select particular user",users)
     
+    # Show main analysis
     if st.sidebar.button("Show Analysis"):
 
         st.title("Top Statistics")
@@ -126,6 +131,8 @@ if uploaded_file is not None:
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
         st.pyplot(plt)
+        st.stop()
+
 
         # Top Used Words
         st.title("Top Words Used")

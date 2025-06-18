@@ -26,10 +26,15 @@ if uploaded_file is not None:
     
     
     df = preprocessor.preprocess(data)
-    users = df['user'].unique().tolist()
-    users.remove('group_notification')
-    users = sorted(users, key=str.lower)
-    users.insert(0,'Overall')
+    try:
+        users = df['user'].unique().tolist()
+        users.remove('group_notification')
+        users = sorted(users, key=str.lower)
+        users.insert(0,'Overall')
+    except:
+        st.error("Not able to execute your request")
+        st.stop()
+    
     selected_user = st.sidebar.selectbox("Select particular user",users)
     
     if st.sidebar.button("Show Analysis"):
